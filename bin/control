@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-ource $OPENSHIFT_CARTRIDGE_SDK_BASH
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 cartridge_type="brooklyn-client"
 version=0.6.0
