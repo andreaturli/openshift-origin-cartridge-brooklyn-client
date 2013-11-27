@@ -4,9 +4,9 @@ Cartridge-Short-Name: BROOKLYN_CLIENT
 Display-Name: Brooklyn Client
 Description: The Brooklyn client connects to your Brooklyn application and enables access to the service catalog.
   Requires the Brookyn Application to be created upfront.
-Version: '1'
+Version: '0.6.0'
 License: ASL 2.0
-Cartridge-Version: 0.0.1
+Cartridge-Version: 0.6.0
 Cartridge-Vendor: cloudsoft
 Categories:
 - plugin
