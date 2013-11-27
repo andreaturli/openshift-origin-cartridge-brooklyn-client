@@ -1,0 +1,3 @@
+#!/bin/bash -e
+
+cp ${OPENSHIFT_BROOKLYN_CLIENT_DIR}/versions/${version}/brooklyn-client ${OPENSHIFT_BROOKLYN_CLIENT_DIR}/brooklyn-client

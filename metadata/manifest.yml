@@ -1,0 +1,24 @@
+---
+Name: brooklyn-client
+Cartridge-Short-Name: BROOKLYN_CLIENT
+Display-Name: Brooklyn Client
+Description: The Brooklyn client connects to your Brooklyn application and enables access to the service catalog.
+  Requires the Brookyn Application to be created upfront.
+Version: '1'
+License: ASL 2.0
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: cloudsoft
+Categories:
+- plugin
+Provides:
+- brooklyn-client
+Publishes: 
+Subscribes: 
+Group-Overrides:
+- components:
+  - brooklyn-client
+  - web_proxy
+Scaling:
+  Min: 1
+  Max: 1
+  Multiplier: -1

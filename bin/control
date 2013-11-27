@@ -1,0 +1,22 @@
+#!/bin/bash -e
+
+ource $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+cartridge_type="brooklyn-client"
+version=0.6.0
+
+BROOKLYN_PID_FILE="/tmp/brooklyn.pid"
+
+function create_application() {
+  echo "Creating an application with #1 = $1, #2 = $2, #3 = $3" 
+  pushd ${OPENSHIFT_BROOKLYN_CLIENT_DIR}
+  java -jar brooklyn-client/brooklyn-rest-client-jar-with-dependencies.jar application create "$1" -h "$2" -e "$3" -l "$4"
+  popd
+}
+
+
+case "$1" in
+  create_application)    create_application "$2" "$3" "$4";;
+  *)          exit 0
+esac
+
