@@ -11,7 +11,7 @@ location_id="/v1/locations/""$6"
 BROOKLYN_PID_FILE="/tmp/brooklyn.pid"
 
 function create_application() {
-  echo "Creating an application using $hostname_port with $username, $password - application: $application_type in $location_id"
+  echo "Creating an application using $hostname_port with $username, $password - application: $application_type in $6"
   curl -i --output /dev/null -H "Accept: application/json" -H "Content-Type:application/json" -X POST -d '{ "type":"'"$application_type"'", "locations": [ "'"$location_id"'" ] }' --insecure https://$username:$password@$hostname_port/v1/applications
 }
 
