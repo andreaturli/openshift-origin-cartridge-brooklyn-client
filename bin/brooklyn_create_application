@@ -24,10 +24,10 @@ print @location_id
 ## https://bugzilla.redhat.com/show_bug.cgi?id=952161
 # Encode XML entites in jenkins_shell_command.erb template *after*
 # processing ERB directives.
-shell_command_erb = ERB.new( File.open(ARGV[2], "rb").read)
-@shell_command = shell_command_erb.result(binding).encode(:json => :text)
-file = File.open(ARGV[3], "rb")
-@artifacts = file.read
+#shell_command_erb = ERB.new( File.open(ARGV[2], "rb").read)
+#@shell_command = shell_command_erb.result(binding).encode(:json => :text)
+#file = File.open(ARGV[3], "rb")
+#@artifacts = file.read
 
 def create_application
   erb = ERB.new(File.open(@application_erb, "rb").read)
