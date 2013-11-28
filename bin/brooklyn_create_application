@@ -31,7 +31,7 @@ print @location_id
 
 def create_application
   erb = ERB.new(File.open(@application_erb, "rb").read)
-  application_template_json = "#{ENV['OPENSHIFT_BROOKLYN_CLIENT_DIR']}/configuration/application_template.json.erb"
+  application_template_json = "~/app-root/repo/bin/configuration/application_template.json.erb"
   File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
   FileUtils.rm @job_erb
 
