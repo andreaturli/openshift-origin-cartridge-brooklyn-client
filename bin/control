@@ -2,14 +2,17 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-cartridge_type="brooklyn-client"
-version=0.6.0
+hostname_port="$2"
+username="$3"
+password="$4"
+application_type="$5"
+location_id="$6"
 
 BROOKLYN_PID_FILE="/tmp/brooklyn.pid"
 
 function create_application() {
-  echo "Creating an application with type=$1, locationId=$2"
-  ${OPENSHIFT_REPO_DIR}/bin/brooklyn_create_application "$1" "$2" 2>&1
+  echo "Creating an application using $hostname_port with $username, $password - application: $application_type in $location_id"
+  curl -s -X POST -H "Content-Type: application/json" -d { "type": "${application_type}", "locations": [ "/v1/locations/${location_id}" ] } --insecure https://${username}:${password}@${hostname_port}/v1/applications
 }
 
 case "$1" in
