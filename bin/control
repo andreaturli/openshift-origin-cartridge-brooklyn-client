@@ -16,7 +16,7 @@ function create_application() {
 }
 
 case "$1" in
-  create_application)    create_application "$2" "$3";;
+  create_application)    create_application ;;
   *)          exit 0
 esac
 
