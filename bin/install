@@ -1,3 +1,14 @@
 #!/bin/bash -e
 
-cp ${OPENSHIFT_BROOKLYN_CLIENT_DIR}/versions/${version}/brooklyn-client ${OPENSHIFT_BROOKLYN_CLIENT_DIR}/brooklyn-client
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+if [ -z "$BROOKLYN_URL" ] #remove https://hostname:port
+then
+    client_error "A Brooklyn server does not exist in this domain!"
+    client_error "You must create a Brooklyn server before installing this cartridge."
+    exit 151
+fi
+
+BROOKLYN_DNS_NAME=${BROKLYN_URL:8} #remove https://
+
+${OPENSHIFT_BROOKLYN_CLIENT_DIR}/bin/control create_application "${BROOKLYN_DNS_NAME}" "${BROOKLYN_USERNAME}" "${BROOKLYN_PASSWORD}" "${APPLICATION_TYPE}" "${LOCATION_ID}" 2>&1
