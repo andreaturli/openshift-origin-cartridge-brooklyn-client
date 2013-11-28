@@ -6,13 +6,13 @@ hostname_port="$2"
 username="$3"
 password="$4"
 application_type="$5"
-location_id="$6"
+location_id="/v1/locations/""$6"
 
 BROOKLYN_PID_FILE="/tmp/brooklyn.pid"
 
 function create_application() {
   echo "Creating an application using $hostname_port with $username, $password - application: $application_type in $location_id"
-  curl -s -X POST -H "Content-Type: application/json" -d { "type": "${application_type}", "locations": [ "/v1/locations/${location_id}" ] } --insecure https://${username}:${password}@${hostname_port}/v1/applications
+  curl -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST -d '{ "type":"'"$application_type"'", "locations": [ "'"$location_id"'" ] }' --insecure https://$username:$password@$hostname_port/v1/applications
 }
 
 case "$1" in
