@@ -9,7 +9,8 @@ BROOKLYN_PID_FILE="/tmp/brooklyn.pid"
 
 function create_application() {
   echo "Creating an application with type=$1, locationId=$2"
-  ${OPENSHIFT_BROOKLYN_CLIENT_DIR}/bin/brooklyn_create_application "$1" "$2" 2>&1
+  #${OPENSHIFT_BROOKLYN_CLIENT_DIR}/bin/brooklyn_create_application "$1" "$2" 2>&1
+  ~/app-root/repo/bin/brooklyn_create_application "$1" "$2" 2>&1
 }
 
 
