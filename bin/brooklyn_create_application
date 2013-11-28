@@ -16,8 +16,11 @@ STDERR.sync = true
 
 #@hostname = ENV['JENKINS_URL'].split("/")[-1].downcase
 @application_erb = "#{ENV['OPENSHIFT_BROOKLYN_CLIENT_DIR']}/configuration/application_template.json.erb"
-@application_name = ARGV[0]
+@application_type = ARGV[0]
 @location_id = ARGV[1]
+
+print @application_type
+print @location_id
 ## https://bugzilla.redhat.com/show_bug.cgi?id=952161
 # Encode XML entites in jenkins_shell_command.erb template *after*
 # processing ERB directives.
