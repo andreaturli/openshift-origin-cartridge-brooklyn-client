@@ -18,7 +18,7 @@ function create_application() {
 function delete_application() {
   application_id="$2"
   echo "Deleting application $application_id"
-  curl --output /dev/null -X DELETE --insecure https://cloudsoft:cl0uds0ft@194.158.5.89:8443/v1/applications/OpenGammaCluster:$application_id
+  curl --output /dev/null -X DELETE --insecure https://$username:$password@$hostname_port/v1/applications/$application_id
 }
 
 case "$1" in
