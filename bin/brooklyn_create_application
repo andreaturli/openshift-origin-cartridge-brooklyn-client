@@ -1,0 +1,42 @@
+#!/usr/bin/env oo-ruby
+
+require 'rubygems'
+require 'json'
+require 'pp'
+require 'erb'
+require 'fileutils'
+
+STDOUT.sync = true
+STDERR.sync = true
+
+@hostname = "8.34.211.203:8443"
+@username = "cloudsoft"
+@password = "password"
+@action = ARGV[0]
+
+#@hostname = ENV['JENKINS_URL'].split("/")[-1].downcase
+@application_erb = "#{ENV['OPENSHIFT_BROOKLYN_CLIENT_DIR']}/configuration/application_template.json.erb"
+@application_name = ARGV[0]
+@location_id = ARGV[1]
+## https://bugzilla.redhat.com/show_bug.cgi?id=952161
+# Encode XML entites in jenkins_shell_command.erb template *after*
+# processing ERB directives.
+shell_command_erb = ERB.new( File.open(ARGV[2], "rb").read)
+@shell_command = shell_command_erb.result(binding).encode(:json => :text)
+file = File.open(ARGV[3], "rb")
+@artifacts = file.read
+
+def create_application
+  erb = ERB.new(File.open(@application_erb, "rb").read)
+  application_template_json = "#{ENV['OPENSHIFT_BROOKLYN_CLIENT_DIR']}/configuration/application_template.json.erb"
+  File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
+  FileUtils.rm @job_erb
+
+  status_code = `curl -s -w %{http_code} --output /dev/null -X POST -H "Content-Type: application/json" --data-binary @- --insecure https://{@username}:{@password}@{@hostname}/v1/applications`
+
+  if status_code != '200'
+    exit 1
+  end
+end
+
+create_application
