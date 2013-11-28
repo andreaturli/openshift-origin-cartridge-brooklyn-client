@@ -32,7 +32,7 @@ file = File.open(@application_erb, "rb")
 
 def create_application
   erb = ERB.new(File.open(@application_erb, "rb").read)
-  application_template_json = @application_erb
+  application_template_json = "#{ENV['OPENSHIFT_REPO_DIR']}/configuration/application_template.json.erb"
   File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
   FileUtils.rm @job_erb
 
