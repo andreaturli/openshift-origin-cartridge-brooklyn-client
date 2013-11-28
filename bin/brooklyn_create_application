@@ -36,7 +36,7 @@ def create_application
   File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
   #FileUtils.rm @application_erb
 
-  status_code = `curl -s -w %{http_code} -X POST -H "Content-Type: application/json" --data-binary {@application_template_json} --insecure https://{@username}:{@password}@{@hostname}/v1/applications`
+  status_code = `curl -s -w %{http_code} -X POST -H "Content-Type: application/json" -d { "type": io.cloudsoft.cloudera.SampleClouderaManagedCluster, "locations": [ "/v1/locations/aws-ec2" ] } --insecure https://{@username}:{@password}@{@hostname}/v1/applications`
   print status_code
   if status_code != '200'
     exit 1
