@@ -10,5 +10,6 @@ then
 fi
 
 BROOKLYN_DNS_NAME=${BROKLYN_URL:8} #remove https://
+echo ${BROOKLYN_DNS_NAME}
 
 ${OPENSHIFT_REPO_DIR}/bin/control create_application "${BROOKLYN_DNS_NAME}" "${BROOKLYN_USERNAME}" "${BROOKLYN_PASSWORD}" "${APPLICATION_TYPE}" "${LOCATION_ID}" 2>&1
