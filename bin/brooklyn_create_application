@@ -20,24 +20,12 @@ STDERR.sync = true
 @application_type = ARGV[0]
 @location_id = ARGV[1]
 
-print @application_type
-print @location_id
-## https://bugzilla.redhat.com/show_bug.cgi?id=952161
-# Encode XML entites in jenkins_shell_command.erb template *after*
-# processing ERB directives.
-shell_command_erb = ERB.new( File.open(@application_erb, "rb").read)
-@shell_command = shell_command_erb.result(binding).encode(:json => :text)
-file = File.open(@application_erb, "rb")
-@artifacts = file.read
-
 def create_application
-  erb = ERB.new(File.open(@application_erb, "rb").read)
-  application_template_json = "#{ENV['OPENSHIFT_REPO_DIR']}/configuration/application_template.json.erb"
-  File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
+  #erb = ERB.new(File.open(@application_erb, "rb").read)
+  #application_template_json = "#{ENV['OPENSHIFT_REPO_DIR']}/configuration/application_template.json.erb"
+  #File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
   #FileUtils.rm @application_erb
-
-  status_code = `curl -s -w %{http_code} -X POST -H "Content-Type: application/json" -d { "type": io.cloudsoft.cloudera.SampleClouderaManagedCluster, "locations": [ "/v1/locations/aws-ec2" ] } --insecure https://{@username}:{@password}@{@hostname}/v1/applications`
-  print status_code
+  status_code = `curl -s -X POST -H "Content-Type: application/json" -d { "type": "{@application_type}", "locations": [ "/v1/locations/{@location_id}" ] } --insecure https://{@username}:{@password}@{@hostname}/v1/applications`
   if status_code != '200'
     exit 1
   end
