@@ -1,31 +1,34 @@
-#!/usr/bin/env oo-ruby
+#!/bin/bash -e
 
-require 'rubygems'
-require 'json'
-require 'pp'
-require 'erb'
-require 'fileutils'
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-STDOUT.sync = true
-STDERR.sync = true
+hostname_port='$1'
+username='$2'
+password='$3'
+application_type='$4'
+location_id='$5'
 
-@hostname = "8.34.211.203:8443"
-@username = "cloudsoft"
-@password = "password"
-@action = ARGV[0]
+#require 'rubygems'
+#require 'json'
+#require 'pp'
+#require 'erb'
+#require 'fileutils'
+#STDOUT.sync = true
+#STDERR.sync = true
 
-#@hostname = ENV['JENKINS_URL'].split("/")[-1].downcase
-@application_erb = "#{ENV['OPENSHIFT_REPO_DIR']}/configuration/application_template.json.erb"
-#@application_erb = "~/app-root/repo/configuration/application_template.json.erb"
-@application_type = ARGV[0]
-@location_id = ARGV[1]
+#@application_erb = "#{ENV['OPENSHIFT_REPO_DIR']}/configuration/application_template.json.erb"
+#@hostname_port = ARGV[0]
+#@username = ARGV[1]
+#@password = ARGV[2]
+#@application_type = ARGV[3]
+#@location_id = ARGV[4]
 
 def create_application
   #erb = ERB.new(File.open(@application_erb, "rb").read)
   #application_template_json = "#{ENV['OPENSHIFT_REPO_DIR']}/configuration/application_template.json.erb"
   #File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
   #FileUtils.rm @application_erb
-  status_code = `curl -s -X POST -H "Content-Type: application/json" -d { "type": "{@application_type}", "locations": [ "/v1/locations/{@location_id}" ] } --insecure https://{@username}:{@password}@{@hostname}/v1/applications`
+  status_code = `curl -s -X POST -H "Content-Type: application/json" -d { "type": "${application_type}", "locations": [ "/v1/locations/${location_id}" ] } --insecure https://${username}:${password}@${hostname_port}/v1/applications`
   if status_code != '200'
     exit 1
   end
