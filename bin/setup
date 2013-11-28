@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
 # Create additional directories required by BROOKLYN
-mkdir -p ${OPENSHIFT_BROOKLYN_CLIENT_DIR}/{logs}
+mkdir -p ${OPENSHIFT_REPO_DIR}/{logs}
