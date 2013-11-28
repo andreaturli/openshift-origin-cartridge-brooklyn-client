@@ -15,8 +15,8 @@ STDERR.sync = true
 @action = ARGV[0]
 
 #@hostname = ENV['JENKINS_URL'].split("/")[-1].downcase
-#@application_erb = "#{ENV['OPENSHIFT_BROOKLYN_CLIENT_DIR']}/configuration/application_template.json.erb"
-@application_erb = "~/app-root/repo/configuration/application_template.json.erb"
+@application_erb = "#{ENV['OPENSHIFT_BROOKLYN_CLIENT_DIR']}/configuration/application_template.json.erb"
+#@application_erb = "~/app-root/repo/configuration/application_template.json.erb"
 @application_type = ARGV[0]
 @location_id = ARGV[1]
 
@@ -32,7 +32,7 @@ file = File.open(@application_erb, "rb")
 
 def create_application
   erb = ERB.new(File.open(@application_erb, "rb").read)
-  application_template_json = "~/app-root/repo/configuration/application_template.json.erb"
+  application_template_json = @application_erb
   File.open(application_template_json, 'w') {|f| f.write(erb.result(binding)) }
   FileUtils.rm @job_erb
 
