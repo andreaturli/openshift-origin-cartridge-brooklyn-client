@@ -6,10 +6,10 @@ Description: The Brooklyn client connects to your Brooklyn application and enabl
   Requires the Brookyn Application to be created upfront.
 Version: '0.6.0'
 License: ASL 2.0
-Cartridge-Version: 0.6.0
+Cartridge-Version: 0.0.1
 Cartridge-Vendor: cloudsoft
 Categories:
-- plugin
+- embedded
 Provides:
 - brooklyn-client
 Publishes: 
@@ -17,7 +17,7 @@ Subscribes:
 Group-Overrides:
 - components:
   - brooklyn-client
-  - web_proxy
+  - web_framework
 Scaling:
   Min: 1
   Max: 1
