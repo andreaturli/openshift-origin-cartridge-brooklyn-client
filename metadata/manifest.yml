@@ -9,15 +9,16 @@ License: ASL 2.0
 Cartridge-Version: 0.0.1
 Cartridge-Vendor: cloudsoft
 Categories:
-- embedded
+  - embedded
+  - service
 Provides:
-- brooklyn-client
+  - brooklyn-client
 Publishes: 
 Subscribes: 
 Group-Overrides:
-- components:
-  - brooklyn-client
-  - web_framework
+  - components:
+    - brooklyn-client
+	- web_framework
 Scaling:
   Min: 1
   Max: 1
