@@ -8,5 +8,11 @@ then
     client_error "You must create a Brooklyn server before installing this cartridge."
     exit 151
 fi
-
+# create application
 ${OPENSHIFT_REPO_DIR}/bin/control create_application "${BROOKLYN_URL_PORT}" "${BROOKLYN_USERNAME}" "${BROOKLYN_PASSWORD}" "${APPLICATION_TYPE}" "${LOCATION_ID}" 2>&1
+
+# loop until application status is RUNNING
+
+# get CASSANDRA_NODE (sensor?)
+
+# export CASSANDRA_NODE
