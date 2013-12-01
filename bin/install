@@ -48,7 +48,7 @@ application_id=$(create_application)
 
 # loop until application status is RUNNING
 service_state="unknown"
-while [ $service_state != "running" ]; do
+while [ "$service_state" != "running" ]; do
     echo "Get application state of $application_id using $hostname_port ($username/$password) - application: $application_type in $location_id"
     service_state=$(get_application_state)
     echo "service state: $service_state"
