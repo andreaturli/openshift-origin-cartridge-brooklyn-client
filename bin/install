@@ -1,13 +1,13 @@
 #!/bin/bash -e
 
-#source $OPENSHIFT_CARTRIDGE_SDK_BASH
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
 protocol="http"
-hostname_port="$1"
-username="$2"
-password="$3"
-application_type="$4"
-location_id="/v1/locations/""$5"
+hostname_port="${BROOKLYN_URL_PORT}"    
+username="${BROOKLYN_USERNAME}"
+password="${BROOKLYN_PASSWORD}"
+application_type="${APPLICATION_TYPE}"
+location_id="/v1/locations/""${LOCATION_ID}"
 
 function jsonval() {
     temp=`echo $json | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w $prop`
