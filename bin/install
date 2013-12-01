@@ -2,7 +2,7 @@
 
 source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-protocol="http"
+protocol="https"
 hostname_port="${BROOKLYN_URL_PORT}"    
 username="${BROOKLYN_USERNAME}"
 password="${BROOKLYN_PASSWORD}"
