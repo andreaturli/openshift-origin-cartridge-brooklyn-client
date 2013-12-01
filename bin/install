@@ -1,18 +1,63 @@
 #!/bin/bash -e
 
-source $OPENSHIFT_CARTRIDGE_SDK_BASH
+#source $OPENSHIFT_CARTRIDGE_SDK_BASH
 
-if [ -z "${BROOKLYN_URL_PORT}" ]
-then
-    client_error "A Brooklyn server does not exist in this domain!"
-    client_error "You must create a Brooklyn server before installing this cartridge."
-    exit 151
-fi
+protocol="http"
+hostname_port="$1"
+username="$2"
+password="$3"
+application_type="$4"
+location_id="/v1/locations/""$5"
+
+function jsonval() {
+    temp=`echo $json | sed 's/\\\\\//\//g' | sed 's/[{}]//g' | awk -v k="text" '{n=split($0,a,","); for (i=1; i<=n; i++) print a[i]}' | sed 's/\"\:\"/\|/g' | sed 's/[\,]/ /g' | sed 's/\"//g' | grep -w $prop`
+    echo ${temp##*|}
+}
+
+function create_application() {
+  json=`curl -s -i -H "Accept: application/json" -H "Content-Type:application/json" -X POST -d '{ "type":"'"$application_type"'", "locations": [ "'"$location_id"'" ] }' --insecure $protocol://$username:$password@$hostname_port/v1/applications`
+  prop='entityId'
+  local result=$(jsonval)
+  echo $result
+}
+
+function get_cassandra_node_id() {
+  json=`curl -X GET --insecure $protocol://$username:$password@$hostname_port/v1/applications/tree | ./bin/JSON.sh | grep '[0],"children",0,"children",*]' | sed 's/\"quarantine\",\"id\"//'`
+  local test=${json##*id\":\"} 
+  local result=$(echo $test | cut -d'"' -f1)
+  echo $result 
+}
+
+function get_application_state() {
+  json=`curl -s -i -H "Accept: application/json" -H "Content-Type:application/json" -X GET --insecure $protocol://$username:$password@$hostname_port/v1/applications/tree`
+  prop='serviceState'
+  local result=$(jsonval)
+  echo $result | tr -d ']'
+}
+
+function get_hostname_of_cassandra_node() {
+  json=`curl -s -i -H "Accept: application/json" -H "Content-Type:application/json" -X GET --insecure $protocol://$username:$password@$hostname_port/v1/applications/$application_id/entities/$entity_id/sensors/current-state`
+  prop='host.name'
+  local result=$(jsonval)
+  echo $result 
+}
+
 # create application
-${OPENSHIFT_REPO_DIR}/bin/control create_application "${BROOKLYN_URL_PORT}" "${BROOKLYN_USERNAME}" "${BROOKLYN_PASSWORD}" "${APPLICATION_TYPE}" "${LOCATION_ID}" 2>&1
+echo "Creating an application using $hostname_port ($username/$password) - application: $application_type in $location_id"
+application_id=$(create_application)
 
 # loop until application status is RUNNING
+service_state="unknown"
+while [ $service_state != "running" ]; do
+    echo "Get application state of $application_id using $hostname_port ($username/$password) - application: $application_type in $location_id"
+    service_state=$(get_application_state)
+    echo "service state: $service_state"
+    sleep 5
+done
 
-# get CASSANDRA_NODE (sensor?)
-
-# export CASSANDRA_NODE
+entity_id=$(get_cassandra_node_id)
+echo "Get the host.address of cassandra node $entity_id using $hostname_port ($username/$password)"
+cassandra_node_hostname=$(get_hostname_of_cassandra_node)
+echo $cassandra_node_hostname
+# set CASSANDRA_NODE hostname to myenv file
+sed -i .bak 's/ip/'$cassandra_node_hostname'/g' configuration/myenv 
