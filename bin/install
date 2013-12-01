@@ -22,7 +22,7 @@ function create_application() {
 }
 
 function get_cassandra_node_id() {
-  json=`curl -X GET --insecure $protocol://$username:$password@$hostname_port/v1/applications/tree | ./bin/JSON.sh | grep '[0],"children",0,"children",*]' | sed 's/\"quarantine\",\"id\"//'`
+  json=`curl -X GET --insecure $protocol://$username:$password@$hostname_port/v1/applications/tree | ${OPENSHIFT_REPO_DIR}/bin/JSON.sh | grep '[0],"children",0,"children",*]' | sed 's/\"quarantine\",\"id\"//'`
   local test=${json##*id\":\"} 
   local result=$(echo $test | cut -d'"' -f1)
   echo $result 
