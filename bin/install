@@ -61,3 +61,4 @@ cassandra_node_hostname=$(get_hostname_of_cassandra_node)
 echo $cassandra_node_hostname
 # set CASSANDRA_NODE hostname to myenv file
 sed -i .bak 's/ip/'$cassandra_node_hostname'/g' configuration/myenv 
+rm configuration/myenv.bak
