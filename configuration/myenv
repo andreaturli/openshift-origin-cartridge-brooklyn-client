@@ -1,1 +1,1 @@
-export CASSANDRA_NODE=ip
+export CASSANDRA_NODE=127.0.0.1
