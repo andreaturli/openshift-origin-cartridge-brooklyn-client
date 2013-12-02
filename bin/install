@@ -60,4 +60,4 @@ echo "Get the host.address of cassandra node $entity_id using $hostname_port ($u
 cassandra_node_hostname=$(get_hostname_of_cassandra_node)
 echo $cassandra_node_hostname
 # set CASSANDRA_NODE hostname to myenv file
-echo "export CASSANDRA_NODE=$cassandra_node_hostname" >> ${OPENSHIFT_REPO_DIR}/configuration/config.properties
+echo "CASSANDRA_NODE=$cassandra_node_hostname" > ${OPENSHIFT_REPO_DIR}/configuration/config.properties
